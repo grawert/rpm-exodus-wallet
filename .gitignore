@@ -3,7 +3,6 @@
 *.src.rpm
 rpmbuild/
 *.spec.swp
-.envrc
 
 # RPM build directories
 ~/rpmbuild/
