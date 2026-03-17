@@ -1,0 +1,43 @@
+name: Build & Release Exodus RPM
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Load .envrc
+        run: |
+          . $GITHUB_WORKSPACE/.envrc
+          echo "EXODUS_VERSION=$EXODUS_VERSION" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: dnf install -y fedora-packager rpm-build curl unzip git make
+
+      - name: Setup rpmbuild tree
+        run: rpmdev-setuptree
+
+      - name: Download Exodus release
+        run: make download
+
+      - name: Build RPM
+        run: make build
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ env.EXODUS_VERSION }}"
+          name: "Exodus ${{ env.EXODUS_VERSION }}"
+          files: ~/rpmbuild/RPMS/x86_64/exodus-*.rpm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
