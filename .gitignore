@@ -1,0 +1,27 @@
+# Build artifacts
+*.rpm
+*.src.rpm
+rpmbuild/
+*.spec.swp
+
+# RPM build directories
+~/rpmbuild/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+.#*
+
+# Downloaded sources (not tracked - downloaded by CI/CD)
+exodus-linux-x64-*.zip
+Exodus-linux-x64.zip
