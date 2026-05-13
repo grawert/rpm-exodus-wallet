@@ -1,23 +1,35 @@
 #!/usr/bin/awk -f
-# update_specfile.awk — update Exodus RPM spec file version and changelog
+# Update Exodus RPM spec file version and changelog
 # Usage: awk -v version="X.Y.Z" -v date="..." -v git_email="..." -v git_username="..." -f update_specfile.awk exodus.spec
+
+BEGIN {
+  version = ENVIRON["EXODUS_VERSION"]
+
+  if (version == "") {
+    print "Error: EXODUS_VERSION environment variable is not defined." > "/dev/stderr"
+    exit 1
+  }
+
+  date = ENVIRON["GIT_DATE"]
+  git_user = ENVIRON["GIT_USER"]
+  git_email = ENVIRON["GIT_EMAIL"]
+}
 
 /^Version:/ {
   if ($2 != version) {
     update_changelog = 1
-    print "Version:        " version
+    printf "Version:        %s\n", version
   } else {
-    print
+    print $0
   }
   next
 }
 
 /^Release:/ {
-  # Reset release to 1 on version change
   if (update_changelog) {
     print "Release:        1%{?dist}"
   } else {
-    print
+    print $0
   }
   next
 }
@@ -25,10 +37,10 @@
 /^%changelog/ {
   print $0
   if (update_changelog) {
-    printf "* %s %s <%s> - %s-1\n", date, git_username, git_email, version
+    printf "* %s %s <%s> - %s-1\n", date, git_user, git_email, version
     printf "- Update Exodus to version %s\n", version
   }
   next
 }
 
-{ print }
+{ print $0 }
