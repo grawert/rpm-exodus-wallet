@@ -28,5 +28,5 @@ version_update: ## Update Exodus version in exodus.spec
 
 commit: ## Commit spec update to git (create version_update branch)
 	git checkout -B version_update
-	git add exodus.spec
+	git add .envrc exodus.spec
 	git commit -m "Update Exodus to version $(EXODUS_VERSION)"

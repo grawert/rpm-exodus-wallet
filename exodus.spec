@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:           exodus
-Version:        26.5.7
+Version:        26.6.4
 Release:        1%{?dist}
 Summary:        Exodus cryptocurrency wallet
 License:        Proprietary
@@ -142,6 +142,8 @@ gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/icons/hicolor/scalable/apps/exodus.svg
 
 %changelog
+*   <> - 26.6.4-1
+- Update Exodus to version 26.6.4
 * Wed May 13 2026 Uwe Grawert <uwe.grawert@linked-planet.com> - 26.5.7-1
 - Update Exodus to version 26.5.7
 * Tue Mar 17 2026 Uwe Grawert <uwe.grawert@linked-planet.com> - 26.3.11-1
